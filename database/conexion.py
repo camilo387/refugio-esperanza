@@ -1,18 +1,17 @@
-import os
 import psycopg
 
 conexion = psycopg.connect(
 
-    host=os.getenv("DB_HOST"),
+    host="localhost",
 
-    dbname=os.getenv("DB_NAME"),
+    dbname="refugio",
 
-    user=os.getenv("DB_USER"),
+    user="postgres",
 
-    password=os.getenv("DB_PASSWORD")
+    password="123456"
 
 )
 
 cursor = conexion.cursor()
 
-print("PostgreSQL conectado 😎")
+print("Conexion exitosa 😎")

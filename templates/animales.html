@@ -162,11 +162,13 @@
             font-size:17px;
             font-weight:600;
             transition:0.3s;
+            text-decoration:none;
         }
 
         .adopt-btn:hover{
             background:#16a34a;
             transform:translateY(-3px);
+            color:white;
         }
 
         /* VACIO */
@@ -382,15 +384,17 @@
 
                         </p>
 
-                        <!-- BOTON -->
+                        <!-- BOTON ADOPTAR -->
 
-                        <button class="adopt-btn">
+                        <a
+                        href="/adoptar/{{ mascota.nombre }}"
+                        class="adopt-btn d-flex justify-content-center align-items-center">
 
                             <i class="bi bi-heart-fill"></i>
 
-                            Adoptar
+                            &nbsp;Adoptar
 
-                        </button>
+                        </a>
 
                     </div>
 

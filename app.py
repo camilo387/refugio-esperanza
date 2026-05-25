@@ -15,6 +15,7 @@ from modelos.mascota import Mascota
 # =========================================================
 
 from database.mascotas_db import *
+from database.conexion import conexion, cursor
 
 # =========================================================
 # INICIAR FLASK
@@ -29,7 +30,29 @@ app = Flask(__name__)
 @app.route("/")
 def inicio():
 
-    return render_template("index.html")
+    mascotas = obtener_mascotas()
+
+    # ======================================
+    # CONTAR ADOPCIONES
+    # ======================================
+
+    cursor.execute(
+
+        "SELECT COUNT(*) FROM adopciones"
+
+    )
+
+    total_adopciones = cursor.fetchone()[0]
+
+    return render_template(
+
+        "index.html",
+
+        mascotas=mascotas,
+
+        total_adopciones=total_adopciones
+
+    )
 
 # =========================================================
 # PAGINA ANIMALES
@@ -38,20 +61,12 @@ def inicio():
 @app.route("/animales")
 def animales():
 
-    # ======================================
-    # OBTENER FILTRO
-    # ======================================
-
     tipo = request.args.get("tipo")
-
-    # ======================================
-    # OBTENER ANIMALES
-    # ======================================
 
     mascotas = obtener_mascotas()
 
     # ======================================
-    # FILTRAR
+    # FILTRO
     # ======================================
 
     if tipo and tipo != "Todos":
@@ -77,7 +92,7 @@ def animales():
     )
 
 # =========================================================
-# PANEL ADMINISTRADOR
+# PANEL ADMIN
 # =========================================================
 
 @app.route("/admin")
@@ -112,10 +127,6 @@ def formulario_mascota():
 
 @app.route("/guardar-mascota", methods=["POST"])
 def guardar_mascota():
-
-    # ======================================
-    # DATOS FORMULARIO
-    # ======================================
 
     nombre = request.form["nombre"]
 
@@ -152,7 +163,7 @@ def guardar_mascota():
     foto.save(ruta)
 
     # ======================================
-    # CREAR OBJETO
+    # OBJETO
     # ======================================
 
     mascota = Mascota(
@@ -168,14 +179,10 @@ def guardar_mascota():
     )
 
     # ======================================
-    # GUARDAR EN POSTGRESQL
+    # GUARDAR EN DB
     # ======================================
 
     insertar_mascota(mascota)
-
-    # ======================================
-    # REDIRECCION
-    # ======================================
 
     return redirect("/admin")
 
@@ -243,6 +250,99 @@ def actualizar(id):
     actualizar_mascota(id, datos)
 
     return redirect("/admin")
+
+# =========================================================
+# FORMULARIO ADOPCION
+# =========================================================
+
+@app.route("/adoptar/<nombre>")
+def adoptar(nombre):
+
+    return render_template(
+
+        "adoptar.html",
+
+        nombre=nombre
+
+    )
+
+# =========================================================
+# GUARDAR ADOPCION
+# =========================================================
+
+@app.route("/guardar-adopcion", methods=["POST"])
+def guardar_adopcion():
+
+    nombre = request.form["nombre"]
+
+    telefono = request.form["telefono"]
+
+    correo = request.form["correo"]
+
+    direccion = request.form["direccion"]
+
+    mascota = request.form["mascota"]
+
+    # ======================================
+    # GUARDAR ADOPCION
+    # ======================================
+
+    cursor.execute(
+
+        """
+
+        INSERT INTO adopciones
+        (
+
+            nombre,
+            telefono,
+            correo,
+            direccion,
+            mascota_nombre
+
+        )
+
+        VALUES (%s,%s,%s,%s,%s)
+
+        """,
+
+        (
+
+            nombre,
+            telefono,
+            correo,
+            direccion,
+            mascota
+
+        )
+
+    )
+
+    # ======================================
+    # ELIMINAR MASCOTA ADOPTADA
+    # ======================================
+
+    cursor.execute(
+
+        """
+
+        DELETE FROM mascotas
+
+        WHERE nombre = %s
+
+        """,
+
+        (mascota,)
+
+    )
+
+    # ======================================
+    # GUARDAR CAMBIOS
+    # ======================================
+
+    conexion.commit()
+
+    return redirect("/")
 
 # =========================================================
 # EJECUTAR FLASK
