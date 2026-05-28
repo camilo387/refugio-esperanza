@@ -1,138 +1,153 @@
-from database.conexion import conexion
+from database.conexion import conexion, cursor
 
 from modelos.mascota import Mascota
 
-cursor = conexion.cursor()
-
-
-# =====================================================
+# =========================================================
 # INSERTAR MASCOTA
-# =====================================================
+# =========================================================
 
 def insertar_mascota(mascota):
 
-    sql = """
+    cursor.execute(
 
-    INSERT INTO mascotas
-    (
-        id,
-        nombre,
-        edad,
-        tipo,
-        raza,
-        estado_salud,
-        descripcion,
-        foto
-    )
+        """
 
-    VALUES
-    (
-        %s,%s,%s,%s,%s,%s,%s,%s
-    )
+        INSERT INTO mascotas
+        (
 
-    """
-
-    valores = (
-
-        mascota.id,
-        mascota.nombre,
-        mascota.edad,
-        mascota.tipo,
-        mascota.raza,
-        mascota.estado_salud,
-        mascota.descripcion,
-        mascota.foto
-
-    )
-
-    cursor.execute(sql, valores)
-
-    conexion.commit()
-
-
-# =====================================================
-# OBTENER MASCOTAS
-# =====================================================
-
-def obtener_mascotas():
-
-    sql = "SELECT * FROM mascotas"
-
-    cursor.execute(sql)
-
-    datos = cursor.fetchall()
-
-    mascotas = []
-
-    for fila in datos:
-
-        mascota = Mascota(
-
-            fila[1],
-            fila[2],
-            fila[3],
-            fila[4],
-            fila[5],
-            fila[6],
-            fila[7]
+            nombre,
+            edad,
+            tipo,
+            raza,
+            estado_salud,
+            descripcion,
+            foto,
+            estado
 
         )
 
-        mascota.id = fila[0]
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+
+        """,
+
+        (
+
+            mascota.nombre,
+            mascota.edad,
+            mascota.tipo,
+            mascota.raza,
+            mascota.estado_salud,
+            mascota.descripcion,
+            mascota.foto,
+            mascota.estado
+
+        )
+
+    )
+
+    conexion.commit()
+
+# =========================================================
+# OBTENER MASCOTAS
+# =========================================================
+
+def obtener_mascotas():
+
+    cursor.execute(
+
+        """
+
+        SELECT *
+
+        FROM mascotas
+
+        """
+
+    )
+
+    filas = cursor.fetchall()
+
+    mascotas = []
+
+    for fila in filas:
+
+        mascota = Mascota(
+
+            fila[0],  # id
+            fila[1],  # nombre
+            fila[2],  # edad
+            fila[3],  # tipo
+            fila[4],  # raza
+            fila[5],  # estado_salud
+            fila[6],  # descripcion
+            fila[7],  # foto
+            fila[8]   # estado
+
+        )
 
         mascotas.append(mascota)
 
     return mascotas
 
-
-# =====================================================
-# ELIMINAR
-# =====================================================
+# =========================================================
+# ELIMINAR MASCOTA
+# =========================================================
 
 def eliminar_mascota(id):
 
-    sql = "DELETE FROM mascotas WHERE id = %s"
+    cursor.execute(
 
-    cursor.execute(sql, (id,))
+        """
 
-    conexion.commit()
+        DELETE FROM mascotas
 
+        WHERE id = %s
 
-# =====================================================
-# ACTUALIZAR
-# =====================================================
+        """,
 
-def actualizar_mascota(id, datos):
-
-    sql = """
-
-    UPDATE mascotas
-
-    SET
-
-    nombre=%s,
-    edad=%s,
-    tipo=%s,
-    raza=%s,
-    estado_salud=%s,
-    descripcion=%s
-
-    WHERE id=%s
-
-    """
-
-    valores = (
-
-        datos["nombre"],
-        datos["edad"],
-        datos["tipo"],
-        datos["raza"],
-        datos["estado_salud"],
-        datos["descripcion"],
-        id
+        (id,)
 
     )
 
-    cursor.execute(sql, valores)
+    conexion.commit()
+
+# =========================================================
+# ACTUALIZAR MASCOTA
+# =========================================================
+
+def actualizar_mascota(id, datos):
+
+    cursor.execute(
+
+        """
+
+        UPDATE mascotas
+
+        SET
+
+            nombre = %s,
+            edad = %s,
+            tipo = %s,
+            raza = %s,
+            estado_salud = %s,
+            descripcion = %s
+
+        WHERE id = %s
+
+        """,
+
+        (
+
+            datos["nombre"],
+            datos["edad"],
+            datos["tipo"],
+            datos["raza"],
+            datos["estado_salud"],
+            datos["descripcion"],
+            id
+
+        )
+
+    )
 
     conexion.commit()

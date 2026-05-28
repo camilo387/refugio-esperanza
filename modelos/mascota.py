@@ -1,45 +1,54 @@
-import uuid
-
-from datetime import datetime
-
-
 class Mascota:
 
     def __init__(
+
         self,
+        id,
         nombre,
         edad,
         tipo,
         raza,
         estado_salud,
         descripcion,
-        foto
+        foto,
+        estado="Disponible"
+
     ):
 
-        self.id = str(uuid.uuid4())
-
+        self.id = id
         self.nombre = nombre
-
         self.edad = edad
-
         self.tipo = tipo
-
         self.raza = raza
-
         self.estado_salud = estado_salud
-
         self.descripcion = descripcion
-
         self.foto = foto
+        self.estado = estado
 
-        self.estado_adopcion = "Disponible"
+    # =========================================
+    # CONVERTIR A DICCIONARIO
+    # =========================================
 
-        self.fecha_registro = datetime.now()
+    def to_dict(self):
 
-    def cambiar_estado(self, estado):
+        return {
 
-        self.estado_adopcion = estado
+            "id": self.id,
+            "nombre": self.nombre,
+            "edad": self.edad,
+            "tipo": self.tipo,
+            "raza": self.raza,
+            "estado_salud": self.estado_salud,
+            "descripcion": self.descripcion,
+            "foto": self.foto,
+            "estado": self.estado
 
-    def esta_disponible(self):
+        }
 
-        return self.estado_adopcion == "Disponible"
+    # =========================================
+    # CAMBIAR ESTADO
+    # =========================================
+
+    def cambiar_estado(self, nuevo_estado):
+
+        self.estado = nuevo_estado

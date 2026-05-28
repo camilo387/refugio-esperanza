@@ -33,12 +33,34 @@ def inicio():
     mascotas = obtener_mascotas()
 
     # ======================================
-    # CONTAR ADOPCIONES
+    # SOLO MASCOTAS DISPONIBLES
+    # ======================================
+
+    mascotas_disponibles = [
+
+        mascota
+
+        for mascota in mascotas
+
+        if mascota.estado == "Disponible"
+
+    ]
+
+    # ======================================
+    # CONTAR ADOPCIONES APROBADAS
     # ======================================
 
     cursor.execute(
 
-        "SELECT COUNT(*) FROM adopciones"
+        """
+
+        SELECT COUNT(*)
+
+        FROM adopciones
+
+        WHERE estado = 'Aprobada'
+
+        """
 
     )
 
@@ -48,7 +70,7 @@ def inicio():
 
         "index.html",
 
-        mascotas=mascotas,
+        mascotas=mascotas_disponibles,
 
         total_adopciones=total_adopciones
 
@@ -66,7 +88,7 @@ def animales():
     mascotas = obtener_mascotas()
 
     # ======================================
-    # FILTRO
+    # FILTRO POR TIPO
     # ======================================
 
     if tipo and tipo != "Todos":
@@ -163,18 +185,20 @@ def guardar_mascota():
     foto.save(ruta)
 
     # ======================================
-    # OBJETO
+    # CREAR OBJETO
     # ======================================
 
     mascota = Mascota(
 
+        None,
         nombre,
         edad,
         tipo,
         raza,
         estado_salud,
         descripcion,
-        nombre_foto
+        nombre_foto,
+        "Disponible"
 
     )
 
@@ -210,7 +234,7 @@ def editar(id):
 
     for mascota in mascotas:
 
-        if mascota.id == id:
+        if str(mascota.id) == str(id):
 
             mascota_encontrada = mascota
 
@@ -284,7 +308,7 @@ def guardar_adopcion():
     mascota = request.form["mascota"]
 
     # ======================================
-    # GUARDAR ADOPCION
+    # GUARDAR SOLICITUD
     # ======================================
 
     cursor.execute(
@@ -298,11 +322,12 @@ def guardar_adopcion():
             telefono,
             correo,
             direccion,
-            mascota_nombre
+            mascota_nombre,
+            estado
 
         )
 
-        VALUES (%s,%s,%s,%s,%s)
+        VALUES (%s,%s,%s,%s,%s,%s)
 
         """,
 
@@ -312,23 +337,26 @@ def guardar_adopcion():
             telefono,
             correo,
             direccion,
-            mascota
+            mascota,
+            "Pendiente"
 
         )
 
     )
 
     # ======================================
-    # ELIMINAR MASCOTA ADOPTADA
+    # CAMBIAR ESTADO MASCOTA
     # ======================================
 
     cursor.execute(
 
         """
 
-        DELETE FROM mascotas
+        UPDATE mascotas
 
-        WHERE nombre = %s
+        SET estado = 'En proceso'
+
+        WHERE LOWER(nombre) = LOWER(%s)
 
         """,
 
@@ -336,13 +364,186 @@ def guardar_adopcion():
 
     )
 
-    # ======================================
-    # GUARDAR CAMBIOS
-    # ======================================
-
     conexion.commit()
 
     return redirect("/")
+
+# =========================================================
+# VER SOLICITUDES
+# =========================================================
+
+@app.route("/solicitudes")
+def solicitudes():
+
+    cursor.execute(
+
+        """
+
+        SELECT *
+
+        FROM adopciones
+
+        """
+
+    )
+
+    solicitudes = cursor.fetchall()
+
+    return render_template(
+
+        "solicitudes.html",
+
+        solicitudes=solicitudes
+
+    )
+
+# =========================================================
+# APROBAR ADOPCION
+# =========================================================
+
+@app.route("/aprobar-adopcion/<id>/<mascota>")
+def aprobar_adopcion(id, mascota):
+
+    # ======================================
+    # CAMBIAR ESTADO SOLICITUD
+    # ======================================
+
+    cursor.execute(
+
+        """
+
+        UPDATE adopciones
+
+        SET estado = 'Aprobada'
+
+        WHERE id = %s
+
+        """,
+
+        (id,)
+
+    )
+
+    # ======================================
+    # CAMBIAR ESTADO MASCOTA
+    # ======================================
+
+    cursor.execute(
+
+        """
+
+        UPDATE mascotas
+
+        SET estado = 'Adoptado'
+
+        WHERE LOWER(nombre) = LOWER(%s)
+
+        """,
+
+        (mascota,)
+
+    )
+
+    conexion.commit()
+
+    return redirect("/solicitudes")
+
+# =========================================================
+# CAMBIAR ESTADO TRATAMIENTO
+# =========================================================
+
+@app.route("/tratamiento/<id>")
+def tratamiento(id):
+
+    # ======================================
+    # OBTENER ESTADO ACTUAL
+    # ======================================
+
+    cursor.execute(
+
+        """
+
+        SELECT estado, estado_anterior
+
+        FROM mascotas
+
+        WHERE id = %s
+
+        """,
+
+        (id,)
+
+    )
+
+    mascota = cursor.fetchone()
+
+    estado_actual = mascota[0]
+
+    estado_anterior = mascota[1]
+
+    # ======================================
+    # SI YA ESTA EN TRATAMIENTO
+    # VOLVER AL ESTADO ANTERIOR
+    # ======================================
+
+    if estado_actual == "En tratamiento":
+
+        nuevo_estado = estado_anterior
+
+        cursor.execute(
+
+            """
+
+            UPDATE mascotas
+
+            SET estado = %s,
+                estado_anterior = NULL
+
+            WHERE id = %s
+
+            """,
+
+            (
+
+                nuevo_estado,
+                id
+
+            )
+
+        )
+
+    # ======================================
+    # SI NO ESTA EN TRATAMIENTO
+    # GUARDAR ESTADO ANTERIOR
+    # ======================================
+
+    else:
+
+        cursor.execute(
+
+            """
+
+            UPDATE mascotas
+
+            SET estado = 'En tratamiento',
+                estado_anterior = %s
+
+            WHERE id = %s
+
+            """,
+
+            (
+
+                estado_actual,
+                id
+
+            )
+
+        )
+
+    conexion.commit()
+
+    return redirect("/admin")
 
 # =========================================================
 # EJECUTAR FLASK
@@ -350,4 +551,12 @@ def guardar_adopcion():
 
 if __name__ == "__main__":
 
-    app.run(debug=True)
+    app.run(
+
+        host="0.0.0.0",
+
+        port=5000,
+
+        debug=True
+
+    )

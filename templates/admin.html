@@ -11,24 +11,25 @@
 
     <!-- Bootstrap -->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
 
-    <!-- Icons -->
+    <!-- Bootstrap Icons -->
 
-    <link rel="stylesheet"
+    <link
+    rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Fonts -->
+    <!-- Google Fonts -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
     <style>
 
         *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
             font-family:'Poppins', sans-serif;
         }
 
@@ -36,161 +37,138 @@
             background:#f5f7fb;
         }
 
-        /* NAVBAR */
-
-        .navbar{
-            background:#0f172a;
-            padding:18px 0;
-        }
-
-        .navbar-brand{
-            font-size:28px;
-            font-weight:700;
-            color:white;
-        }
-
-        .navbar-brand span{
-            color:#22c55e;
-        }
-
-        /* TITULOS */
+        /* TITULO */
 
         .title{
-            font-size:55px;
+
+            font-size:70px;
+
             font-weight:700;
+
             color:#0f172a;
+
         }
 
-        .subtitle{
-            color:#64748b;
-            font-size:18px;
-        }
+        /* CONTENEDOR */
 
-        /* BOTON AGREGAR */
+        .table-container{
 
-        .add-btn{
-            background:#22c55e;
-            border:none;
-            color:white;
-            padding:14px 25px;
-            border-radius:15px;
-            font-size:17px;
-            font-weight:600;
-            text-decoration:none;
-            transition:0.3s;
-        }
-
-        .add-btn:hover{
-            background:#16a34a;
-            transform:translateY(-3px);
-            color:white;
-        }
-
-        /* TARJETAS */
-
-        .pet-card{
             background:white;
-            border-radius:25px;
-            overflow:hidden;
-            transition:0.4s;
-            height:100%;
-            border:1px solid #e2e8f0;
+
+            border-radius:30px;
+
+            padding:35px;
+
+            box-shadow:0 15px 40px rgba(0,0,0,0.05);
+
         }
 
-        .pet-card:hover{
-            transform:translateY(-10px);
-            box-shadow:0 20px 40px rgba(0,0,0,0.1);
-        }
+        /* TABLA */
 
-        .pet-img{
-            width:100%;
-            height:280px;
+        .table img{
+
+            width:110px;
+
+            height:110px;
+
             object-fit:cover;
+
+            border-radius:20px;
+
         }
 
-        .pet-body{
-            padding:25px;
+        /* BADGES */
+
+        .badge-disponible{
+
+            background:#22c55e;
+
+            color:white;
+
+            padding:10px 18px;
+
+            border-radius:50px;
+
+            font-size:15px;
+
         }
 
-        .pet-name{
-            font-size:30px;
-            font-weight:700;
-            color:#0f172a;
-            margin-bottom:15px;
+        .badge-proceso{
+
+            background:#facc15;
+
+            color:black;
+
+            padding:10px 18px;
+
+            border-radius:50px;
+
+            font-size:15px;
+
         }
 
-        .pet-info{
-            color:#64748b;
-            margin-bottom:10px;
+        .badge-adoptado{
+
+            background:#ef4444;
+
+            color:white;
+
+            padding:10px 18px;
+
+            border-radius:50px;
+
+            font-size:15px;
+
+        }
+
+        .badge-tratamiento{
+
+            background:#3b82f6;
+
+            color:white;
+
+            padding:10px 18px;
+
+            border-radius:50px;
+
+            font-size:15px;
+
         }
 
         /* BOTONES */
 
-        .btn-edit{
-            background:#3b82f6;
+        .btn-action{
+
+            width:42px;
+
+            height:42px;
+
             border:none;
+
+            border-radius:8px;
+
             color:white;
-            width:100%;
-            height:48px;
-            border-radius:12px;
-            font-weight:600;
+
             transition:0.3s;
-            text-decoration:none;
-            display:flex;
-            align-items:center;
-            justify-content:center;
+
         }
 
-        .btn-edit:hover{
-            background:#2563eb;
-            transform:translateY(-3px);
-            color:white;
+        .btn-action:hover{
+
+            transform:scale(1.1);
+
+        }
+
+        .btn-edit{
+
+            background:#eab308;
+
         }
 
         .btn-delete{
-            background:#ef4444;
-            border:none;
-            color:white;
-            width:100%;
-            height:48px;
-            border-radius:12px;
-            font-weight:600;
-            transition:0.3s;
-            text-decoration:none;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        }
 
-        .btn-delete:hover{
-            background:#dc2626;
-            transform:translateY(-3px);
-            color:white;
-        }
+            background:#dc3545;
 
-        /* VACIO */
-
-        .empty-box{
-            background:white;
-            padding:60px;
-            border-radius:30px;
-            text-align:center;
-            box-shadow:0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .empty-box i{
-            font-size:70px;
-            color:#22c55e;
-            margin-bottom:20px;
-        }
-
-        .empty-box h2{
-            color:#0f172a;
-            font-weight:700;
-        }
-
-        .empty-box p{
-            color:#64748b;
         }
 
     </style>
@@ -199,191 +177,233 @@
 
 <body>
 
-    <!-- NAVBAR -->
-
-    <nav class="navbar navbar-expand-lg navbar-dark">
-
-        <div class="container">
-
-            <a class="navbar-brand" href="/">
-                🐾 Refugio <span>Esperanza</span>
-            </a>
-
-        </div>
-
-    </nav>
-
-    <!-- CONTENIDO -->
-
     <div class="container py-5">
 
-        <!-- HEADER -->
+        <!-- TITULO -->
 
-        <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="title mb-5">
 
-            <div>
+            Panel Administrador
 
-                <h1 class="title">
+        </h1>
 
-                    Panel Administrador
+        <!-- BOTONES -->
 
-                </h1>
+        <div class="mb-4 d-flex gap-3 flex-wrap">
 
-                <p class="subtitle">
-
-                    Gestiona todos los animales registrados
-
-                </p>
-
-            </div>
-
-            <!-- BOTON AGREGAR -->
+            <!-- REGISTRAR -->
 
             <a
             href="/registrar-mascota"
-            class="add-btn">
+            class="btn btn-success">
 
-                <i class="bi bi-plus-circle-fill"></i>
+                <i class="bi bi-plus-circle"></i>
 
-                Agregar Animal
+                Registrar mascota
+
+            </a>
+
+            <!-- SOLICITUDES -->
+
+            <a
+            href="/solicitudes"
+            class="btn btn-warning">
+
+                <i class="bi bi-envelope-heart-fill"></i>
+
+                Solicitudes de adopción
 
             </a>
 
         </div>
 
-        <!-- SI HAY ANIMALES -->
+        <!-- TABLA -->
 
-        {% if mascotas|length > 0 %}
+        <div class="table-container">
 
-        <div class="row">
+            <div class="table-responsive">
 
-            {% for mascota in mascotas %}
+                <table class="table align-middle">
 
-            <div class="col-lg-4 mb-4">
+                    <thead>
 
-                <div class="pet-card">
+                        <tr>
 
-                    <!-- FOTO -->
+                            <th>Foto</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Raza</th>
+                            <th>Edad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
 
-                    <img
-                    src="{{ url_for('static', filename='img/mascotas/' + mascota.foto) }}"
-                    class="pet-img">
+                        </tr>
 
-                    <!-- BODY -->
+                    </thead>
 
-                    <div class="pet-body">
+                    <tbody>
 
-                        <h3 class="pet-name">
+                        {% for mascota in mascotas %}
 
-                            {{ mascota.nombre }}
+                        <tr>
 
-                        </h3>
+                            <!-- FOTO -->
 
-                        <p class="pet-info">
+                            <td>
 
-                            <strong>Tipo:</strong>
-                            {{ mascota.tipo }}
+                                <img
+                                src="{{ url_for('static', filename='img/mascotas/' + mascota.foto) }}">
 
-                        </p>
+                            </td>
 
-                        <p class="pet-info">
+                            <!-- NOMBRE -->
 
-                            <strong>Raza:</strong>
-                            {{ mascota.raza }}
+                            <td>
 
-                        </p>
+                                <strong>
 
-                        <p class="pet-info">
+                                    {{ mascota.nombre }}
 
-                            <strong>Edad:</strong>
-                            {{ mascota.edad }} años
+                                </strong>
 
-                        </p>
+                            </td>
 
-                        <p class="pet-info">
+                            <!-- TIPO -->
 
-                            <strong>Estado:</strong>
-                            {{ mascota.estado_salud }}
+                            <td>
 
-                        </p>
+                                {{ mascota.tipo }}
 
-                        <p class="pet-info">
+                            </td>
 
-                            {{ mascota.descripcion }}
+                            <!-- RAZA -->
 
-                        </p>
+                            <td>
 
-                        <!-- BOTONES ADMIN -->
+                                {{ mascota.raza }}
 
-                        <div class="d-grid gap-2 mt-4">
+                            </td>
 
-                            <!-- EDITAR -->
+                            <!-- EDAD -->
 
-                            <a
-                            href="/editar/{{ mascota.id }}"
-                            class="btn-edit">
+                            <td>
 
-                                <i class="bi bi-pencil-fill"></i>
+                                {{ mascota.edad }} años
 
-                                &nbsp;
-                                Editar
+                            </td>
 
-                            </a>
+                            <!-- ESTADO -->
 
-                            <!-- ELIMINAR -->
+                            <td>
 
-                            <a
-                            href="/eliminar/{{ mascota.id }}"
-                            class="btn-delete">
+                                {% if mascota.estado == "Disponible" %}
 
-                                <i class="bi bi-trash-fill"></i>
+                                <span class="badge-disponible">
 
-                                &nbsp;
-                                Eliminar
+                                    🟢 Disponible
 
-                            </a>
+                                </span>
 
-                        </div>
+                                {% elif mascota.estado == "En proceso" %}
 
-                    </div>
+                                <span class="badge-proceso">
 
-                </div>
+                                    🟡 En proceso
+
+                                </span>
+
+                                {% elif mascota.estado == "Adoptado" %}
+
+                                <span class="badge-adoptado">
+
+                                    🔴 Adoptado
+
+                                </span>
+
+                                {% elif mascota.estado == "En tratamiento" %}
+
+                                <span class="badge-tratamiento">
+
+                                    🔵 En tratamiento
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Sin estado
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- ACCIONES -->
+
+                            <td>
+
+                                <div class="d-flex gap-2">
+
+                                    <!-- EDITAR -->
+
+                                    <a
+                                    href="/editar/{{ mascota.id }}">
+
+                                        <button class="btn-action btn-edit">
+
+                                            <i class="bi bi-pencil-fill"></i>
+
+                                        </button>
+
+                                    </a>
+
+                                    <!-- EN TRATAMIENTO -->
+
+                                    <a
+                                    href="/tratamiento/{{ mascota.id }}">
+
+                                        <button
+                                        class="btn-action"
+                                        style="background:#3b82f6;">
+
+                                            <i class="bi bi-hospital-fill"></i>
+
+                                        </button>
+
+                                    </a>
+
+                                    <!-- ELIMINAR -->
+
+                                    <a
+                                    href="/eliminar/{{ mascota.id }}">
+
+                                        <button class="btn-action btn-delete">
+
+                                            <i class="bi bi-trash-fill"></i>
+
+                                        </button>
+
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
 
             </div>
 
-            {% endfor %}
-
         </div>
-
-        {% else %}
-
-        <!-- SI NO HAY ANIMALES -->
-
-        <div class="empty-box">
-
-            <i class="bi bi-emoji-frown"></i>
-
-            <h2>
-
-                No hay animales registrados
-
-            </h2>
-
-            <p class="mt-3">
-
-                Agrega animales desde el panel administrador.
-
-            </p>
-
-        </div>
-
-        {% endif %}
 
     </div>
-
-    <!-- Bootstrap -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
